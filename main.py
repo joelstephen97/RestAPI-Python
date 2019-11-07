@@ -1,6 +1,7 @@
 import requests
 import sqlite3
-
+from ratelimit import limits,sleep_and_retry,RateLimitException
+from backoff import on_exception,expo
 
 '''
 System Necessary Variables
@@ -34,5 +35,37 @@ def call_api():
     return data
 
 
+
+def drop_table():
+    '''
+    If table exists, Drop table.
+
+    :return:
+    '''
+    cursor.execute ("DROP TABLE IF EXISTS data_table")
+    connection.commit()
+
+def create_table():
+    '''
+    If table does not exist, Table is create.
+    If exists, return error.
+    Error is caught in try/except loop.
+    :return:
+    '''
+    sql_command = """
+        CREATE TABLE IF NOT EXISTS data_table (
+                            postId INTEGER,
+                            id INTEGER PRIMARY KEY,
+                            name VARCHAR(1000),
+                            email VARCHAR(200),
+                            body CHAR(1000));"""
+
+
+
+    try:
+        cursor.execute(sql_command)
+        connection.commit()
+    except:
+        pass
 
 
