@@ -103,4 +103,47 @@ def write_data_to_table():
     connection.commit()
 
 
+def runnable():
+    '''
+    This definition is to provide a concise running enviroment to enhance usability only.
+    functions are called per user instructions making the user experience optimal.
+    :return:
+    '''
+    print('Hello, Welcome to the Database. ')
+    print('''
+    Your options are :
+    1. Write DATA from https://jsonplaceholder.typicode.com/comments
+    2. Delete Existing Data from Table 
+    3. Exit''')
 
+
+    def options():
+        option_input = int(input("Enter Option: "))
+        if option_input == 1:
+            try:
+                write_data_to_table()
+                print('\n')
+                options()
+            except:
+                print('''Oops, Looks like data already exists. Enter option 2 and try again. ''')
+                print('\n')
+                options()
+        elif option_input == 2 :
+            drop_table()
+            print('Existing table has been dropped successfully!')
+            create_table()
+            print('Created new table to store your data.')
+            print('\n')
+            options()
+        elif option_input == 3:
+            print('Thank you for using the Program. Exiting Now.')
+            exit
+        else:
+            print('Invalid Option Choice, please enter the valid choice again.')
+            print('\n')
+            options()
+
+    options()
+
+
+runnable()
