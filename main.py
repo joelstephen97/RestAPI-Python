@@ -69,3 +69,38 @@ def create_table():
         pass
 
 
+def write_data_to_table():
+    '''
+    Instruction passed to create table.
+    call_api() function is called and data variable accepts data.JSON object.
+
+    for loop loops through the JSON and inserts all data into the table.
+
+    When all data has been entered a message is flashed to show the number of data points inserted to table.
+    :return:
+    '''
+    create_table()
+    data = call_api()
+
+    for i in data:
+        a = i['body'].replace('\n', ' ')
+        format_str = """INSERT INTO data_table
+                        (
+                            postId,
+                            id,
+                            name,
+                            email,
+                            body                   
+    
+                        ) 
+                        VALUES ({postId}, {id}, "{name}", "{email}", "{body}");"""
+        sql_command = format_str.format(postId=i['postId'],id=i['id'],name=i['name'],email=i['email'],body=a)
+        cursor.execute(sql_command)
+        if i['id'] == len(data):
+            print(f"{i['id']} data fields have been entered into table from the ReST API.")
+        else:
+            pass
+    connection.commit()
+
+
+
