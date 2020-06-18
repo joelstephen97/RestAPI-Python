@@ -4,6 +4,6 @@ chardet==3.0.4
 idna==2.8
 pip==10.0.1
 ratelimit==2.2.1
-requests==2.22.0
+requests==2.24.0
 setuptools==39.1.0
 urllib3==1.25.6
